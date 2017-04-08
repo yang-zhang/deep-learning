@@ -89,3 +89,4 @@ ENV/
 .ropeproject
 
 .ipynb_checkpoints/
+bak/
