@@ -9,6 +9,6 @@ Deep Learning demos and experiments.
 For setting up deep learning environement, see [here](https://github.com/yang-zhang/ds-env/blob/master/setup_deep_learning.md).
 
 ---
-Go back to [github/yang-zhang Home Page](https://yang-zhang.github.io/)
+Back to [Home Page](https://yang-zhang.github.io/)
 
 
