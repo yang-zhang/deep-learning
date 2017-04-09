@@ -1,6 +1,10 @@
 
 # coding: utf-8
 
+# - Linear regression in sklearn v.s. Keras. 
+# - Validation data in Keras
+# - Getting coefficients (weights) in Keras.
+
 # In[43]:
 
 import ds_utils.imports; import imp; imp.reload(ds_utils.imports)
@@ -102,11 +106,6 @@ mdl.evaluate(X_test, y_test)
 # In[117]:
 
 mdl.summary()
-
-
-# In[ ]:
-
-
 
 
 # In[121]:

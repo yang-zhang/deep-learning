@@ -1,16 +1,21 @@
 
 # coding: utf-8
 
-# In[20]:
+# In[4]:
 
 from ds_utils.imports import *
 
 
+# In[5]:
+
+import keras.layers
+
+
 # # Prework
 
-# Following this fast.ai [lesson](https://www.youtube.com/watch?v=V2h3IOBDvrA&feature=youtu.be&t=5761).
+# Following this fast.ai [lesson](https://github.com/fastai/courses/blob/master/deeplearning1/nbs/lesson4.ipynb) and [video](https://www.youtube.com/watch?v=V2h3IOBDvrA&feature=youtu.be&t=5761).
 
-# In[ ]:
+# In[6]:
 
 # get data
 # !wget -O data/ml-latest-small.zip http://files.grouplens.org/datasets/movielens/ml-latest-small.zip
@@ -19,24 +24,14 @@ from ds_utils.imports import *
 
 # # Preprocessing
 
-# In[38]:
+# In[7]:
 
 ratings = pd.read_csv('data/ml-latest-small/ratings.csv')
 
 
-# In[39]:
+# In[8]:
 
 ratings.sample(5)
-
-
-# In[45]:
-
-ratings.describe()
-
-
-# In[41]:
-
-ratings.shape
 
 
 # In[42]:
@@ -80,56 +75,16 @@ trn = ratings[msk]
 val = ratings[~msk]
 
 
-# # excel like table
-
-# In[60]:
-
-g = ratings.groupby('userId')['rating'].count()
-
-
-# In[62]:
-
-topUsers = g.sort_values(ascending=False)[:15]
-
-
-# In[65]:
-
-g = ratings.groupby('movieId')['rating'].count()
-
-
-# In[66]:
-
-topMovies = g.sort_values(ascending=False)[:15]
-
-
-# In[72]:
-
-top_r = ratings.join(topUsers, how='inner', on='userId', rsuffix='_r')
-
-
-# In[74]:
-
-top_r = top_r.join(topMovies, how='inner', on='movieId', rsuffix='_r')
-
-
-# In[76]:
-
-top_r.head()
-
-
-# In[79]:
-
-pd.crosstab(ratings.userId, ratings.movieId, ratings.rating, aggfunc=sum)
-
-
-# In[77]:
-
-pd.crosstab(top_r.userId, top_r.movieId, top_r.rating, aggfunc=np.sum)
-
-
 # # dot product
 
 # In[ ]:
 
 
 
+
+# In[2]:
+
+keras.layers.Input
+
+
+# # scratch
