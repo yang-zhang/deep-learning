@@ -12,6 +12,7 @@ Deep Learning demos and experiments.
   - Getting coefficients (weights) in Keras.
 - [MNIST using Keras](https://github.com/yang-zhang/deep-learning/blob/master/MNIST_keras.ipynb): CNN example.
 - [Collaborative Filtering using Keras](https://github.com/yang-zhang/deep-learning/blob/master/collaborative_filtering_keras.ipynb)
+- [Number of Layer Parameters](https://github.com/yang-zhang/deep-learning/blob/master/keras_number_of_paramters.ipynb): Demo to verify the number of paramters of layers in Keras models.
 
 For setting up deep learning environement, see [here](https://github.com/yang-zhang/ds-env/blob/master/setup_deep_learning.md).
 
