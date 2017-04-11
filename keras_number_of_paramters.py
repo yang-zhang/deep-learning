@@ -3,14 +3,14 @@
 
 # Demo to verify the number of paramters of layers in Keras models.
 
-# In[47]:
+# In[137]:
 
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Embedding
-from keras.layers import LSTM
 from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
+from keras.layers import LSTM, Dense
 
 
 # ### Multilayer Perceptron (MLP) for multi-class softmax classification
@@ -109,6 +109,7 @@ model.add(Dense(1, activation='sigmoid'))
 # In[70]:
 
 print(model.summary())
+# TODO
 
 assert(13 * 7 == 91)
 print(2108/17, 'then?')
@@ -131,16 +132,6 @@ model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 
-# In[125]:
-
-6708/13
-
-
-# In[126]:
-
-(516-1)/103
-
-
 # In[136]:
 
 print(model.summary())
@@ -152,9 +143,71 @@ assert(23 * (6*19 + 1) == 2645)
 assert(1 * (23 + 1) == 24)
 
 
+# ### Stacked LSTM for sequence classification
+
+# In[140]:
+
+data_dim = 11
+timesteps = 7
+num_classes = 13
+
+# expected input data shape: (batch_size, timesteps, data_dim)
+model = Sequential()
+model.add(LSTM(31, return_sequences=True,
+               input_shape=(timesteps, data_dim)))  # returns a sequence of vectors of dimension 31
+model.add(LSTM(37, return_sequences=True))  # returns a sequence of vectors of dimension 37
+model.add(LSTM(41))  # return a single vector of dimension 41
+model.add(Dense(17, activation='softmax'))
+
+
+# In[150]:
+
+print(model.summary())
+# TODO
+(5332/31)
+172/4
+
+
+# ### Same stacked LSTM model, rendered "stateful"
+
+# In[151]:
+
+data_dim = 11
+timesteps = 7
+num_classes = 13
+batch_size = 47
+
+# expected input data shape: (batch_size, timesteps, data_dim)
+model = Sequential()
+model.add(LSTM(31, return_sequences=True, stateful=True,
+               batch_input_shape=(batch_size, timesteps, data_dim)))  # returns a sequence of vectors of dimension 31
+model.add(LSTM(37, return_sequences=True, stateful=True))  # returns a sequence of vectors of dimension 37
+model.add(LSTM(41, stateful=True))  # return a single vector of dimension 41
+model.add(Dense(17, activation='softmax'))
+
+
 # In[ ]:
 
+data_dim = 16
+timesteps = 8
+num_classes = 10
+batch_size = 32
 
+# Expected input batch shape: (batch_size, timesteps, data_dim)
+# Note that we have to provide the full batch_input_shape since the network is stateful.
+# the sample of index i in batch k is the follow-up for the sample i in batch k-1.
+model = Sequential()
+model.add(LSTM(32, return_sequences=True, stateful=True,
+               batch_input_shape=(batch_size, timesteps, data_dim)))
+model.add(LSTM(32, return_sequences=True, stateful=True))
+model.add(LSTM(32, stateful=True))
+model.add(Dense(10, activation='softmax'))
+
+
+# In[153]:
+
+print(model.summary())
+# TODO
 
 
 # Reference: 
