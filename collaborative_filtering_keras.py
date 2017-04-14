@@ -1,16 +1,21 @@
 
 # coding: utf-8
 
-# In[71]:
+# In[52]:
 
 from ds_utils.imports import *
+
+
+# In[57]:
+
+assert(keras.backend.backend()=='theano')
 
 
 # # Prework
 
 # Following this fast.ai [lesson](https://github.com/fastai/courses/blob/master/deeplearning1/nbs/lesson4.ipynb) and [video](https://www.youtube.com/watch?v=V2h3IOBDvrA&feature=youtu.be&t=5761).
 
-# In[84]:
+# In[58]:
 
 # get data
 # !wget -O data/ml-latest-small.zip http://files.grouplens.org/datasets/movielens/ml-latest-small.zip
@@ -19,56 +24,56 @@ from ds_utils.imports import *
 
 # # Preprocessing
 
-# In[85]:
+# In[59]:
 
 ratings = pd.read_csv('data/ml-latest-small/ratings.csv')
 
 
-# In[86]:
+# In[60]:
 
 ratings.shape
 
 
-# In[87]:
+# In[61]:
 
 ratings.sample(5)
 
 
-# In[88]:
+# In[62]:
 
 users = ratings.userId.unique()
 movies = ratings.movieId.unique()
 
 
-# In[89]:
+# In[63]:
 
 userid2idx = {o: i for i, o in enumerate(users)}
 movieid2idx = {o: i for i, o in enumerate(movies)}
 
 
-# In[90]:
+# In[64]:
 
 ratings.userId = ratings.userId.apply(lambda x: userid2idx[x])
 ratings.movieId = ratings.movieId.apply(lambda x: movieid2idx[x])
 
 
-# In[91]:
+# In[65]:
 
 n_users = ratings.userId.nunique()
 n_movies = ratings.movieId.nunique()
 
 
-# In[92]:
+# In[66]:
 
 n_factors = 50
 
 
-# In[93]:
+# In[67]:
 
 np.random.seed = 42
 
 
-# In[94]:
+# In[68]:
 
 msk = np.random.rand(len(ratings)) < 0.8
 trn = ratings[msk]
@@ -77,12 +82,12 @@ val = ratings[~msk]
 
 # # Dot product
 
-# In[108]:
+# In[22]:
 
 user_in = keras.layers.Input(shape=(1, ), dtype='int64', name='user_in')
 
 
-# In[109]:
+# In[23]:
 
 u = keras.layers.Embedding(
     input_dim=n_users,
@@ -91,12 +96,12 @@ u = keras.layers.Embedding(
     embeddings_regularizer=keras.regularizers.l2(l=1e-4))(user_in)
 
 
-# In[111]:
+# In[24]:
 
 movie_in = keras.layers.Input(shape=(1, ), dtype='int64', name='movie_in')
 
 
-# In[112]:
+# In[25]:
 
 m = keras.layers.Embedding(
     input_dim=n_movies,
@@ -105,27 +110,27 @@ m = keras.layers.Embedding(
     embeddings_regularizer=keras.regularizers.l2(l=1e-4))(movie_in)
 
 
-# In[113]:
+# In[26]:
 
 x = keras.layers.merge([u, m], mode='dot')
 
 
-# In[114]:
+# In[27]:
 
 x = keras.layers.Flatten()(x)
 
 
-# In[115]:
+# In[28]:
 
 model = keras.models.Model(inputs=[user_in, movie_in], outputs=x)
 
 
-# In[116]:
+# In[29]:
 
 model.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='mse')
 
 
-# In[117]:
+# In[30]:
 
 model.fit(x=[trn.userId, trn.movieId],
           y=trn.rating,
@@ -134,12 +139,12 @@ model.fit(x=[trn.userId, trn.movieId],
           validation_data=([val.userId, val.movieId], val.rating))
 
 
-# In[67]:
+# In[31]:
 
 model.optimizer.lr = 0.01
 
 
-# In[118]:
+# In[32]:
 
 model.fit(
     x=[trn.userId, trn.movieId],
@@ -149,12 +154,12 @@ model.fit(
     validation_data=([val.userId, val.movieId], val.rating), )
 
 
-# In[119]:
+# In[33]:
 
 model.optimizer.lr = 0.001
 
 
-# In[120]:
+# In[34]:
 
 model.fit(x=[trn.userId, trn.movieId],
           y=trn.rating,
@@ -166,76 +171,103 @@ model.fit(x=[trn.userId, trn.movieId],
 
 # # Bias
 
-# In[130]:
+# In[69]:
 
 user_bias = keras.layers.Embedding(input_dim=n_users, output_dim=1, input_length=1)(user_in)
 user_bias = keras.layers.Flatten()(user_bias)
 
 
-# In[131]:
+# In[37]:
 
 movie_bias = keras.layers.Embedding(input_dim=n_movies, output_dim=1, input_length=1)(movie_in)
 movie_bias = keras.layers.Flatten()(movie_bias)
 
 
-# In[132]:
+# In[38]:
 
 x = keras.layers.merge([u, m], mode='dot')
 x = keras.layers.Flatten()(x)
 
 
-# In[133]:
+# In[39]:
 
 x = keras.layers.merge([x, user_bias], mode='sum')
 x = keras.layers.merge([x, movie_bias], mode='sum')
 
 
-# In[151]:
+# In[79]:
+
+type(x)
+
+
+# In[40]:
 
 model = keras.models.Model(inputs=[user_in, movie_in], outputs=x)
 
 
-# In[152]:
+# In[41]:
 
 model.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='mse')
 
 
-# In[158]:
+# In[42]:
 
 model.summary()
 
 
-# In[153]:
+# In[43]:
 
 model.fit(x=[trn.userId, trn.movieId], y=trn.rating, batch_size=64, validation_data=([val.userId, val.movieId], val.rating))
 
 
-# In[154]:
+# In[44]:
 
 model.optimizer.lr=0.01
 
 
-# In[155]:
+# In[45]:
 
 model.fit(x=[trn.userId, trn.movieId], y=trn.rating, batch_size=64, epochs=10, validation_data=([val.userId, val.movieId], val.rating))
 
 
-# In[156]:
+# In[46]:
 
 model.optimizer.lr=0.001
 
 
-# In[157]:
+# In[47]:
 
 model.fit(x=[trn.userId, trn.movieId], y=trn.rating, batch_size=64, epochs=5, validation_data=([val.userId, val.movieId], val.rating))
 
 
+# # Inspect
+
+# In[92]:
+
+type(user_in)
+
+
+# In[93]:
+
+user_in_layer = model.get_layer(name='user_in')
+
+
+# In[94]:
+
+user_in_layer.input_shape
+
+
+# In[95]:
+
+user_in_layer.output_shape
+
+
+# In[96]:
+
+model.get_layer(index=2).output_shape
+
+
 # # scratch
-
-# In[ ]:
-
-
-
 
 # In[ ]:
 
