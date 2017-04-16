@@ -267,14 +267,75 @@ user_in_layer.output_shape
 model.get_layer(index=2).output_shape
 
 
-# # scratch
+# # NN
+
+# In[133]:
+
+x = keras.layers.merge([u, m], mode='concat')
+
+x = keras.layers.Flatten()(x)
+x = keras.layers.Dropout(0.3)(x)
+x = keras.layers.Dense(70, activation='relu')(x)
+x = keras.layers.Dropout(0.75)(x)
+x = keras.layers.Dense(1)(x)
+
+
+# In[138]:
+
+nn = keras.models.Model(inputs=[user_in, movie_in], outputs=x)
+
+
+# In[140]:
+
+nn.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss='mse')
+
 
 # In[ ]:
 
+nn.fit(x=[trn.userId, trn.movieId],
+          y=trn.rating,
+          batch_size=64,
+          epochs=10,
+          validation_data=([val.userId, val.movieId], val.rating))
 
 
+# # Get Parts of Model
 
-# In[ ]:
+# ## Get bias
+
+# In[157]:
+
+mdl_movie_bias = keras.models.Model(inputs=movie_in, outputs=movie_bias)
 
 
+# In[158]:
+
+mdl_movie_bias.summary()
+
+
+# In[159]:
+
+movies
+
+
+# In[160]:
+
+mdl_movie_bias.predict(np.random.choice(ratings.movieId, 5))
+
+
+# ## Get embedding
+
+# In[161]:
+
+mdl_movie_embedding = keras.models.Model(inputs=movie_in, outputs=m)
+
+
+# In[162]:
+
+mdl_movie_embedding.summary()
+
+
+# In[165]:
+
+mdl_movie_embedding.predict(np.random.choice(ratings.movieId, 2))
 
