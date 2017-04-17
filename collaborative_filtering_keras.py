@@ -299,7 +299,7 @@ nn.fit(x=[trn.userId, trn.movieId],
           validation_data=([val.userId, val.movieId], val.rating))
 
 
-# # Get Parts of Model
+# # Get parts of model
 
 # ## Get bias
 
@@ -323,6 +323,31 @@ movies
 mdl_movie_bias.predict(np.random.choice(ratings.movieId, 5))
 
 
+# In[166]:
+
+predicted_movies_bias = mdl_movie_bias.predict(ratings.movieId)
+
+
+# In[190]:
+
+predicted_movies_bias.shape
+
+
+# In[177]:
+
+predicted_movies_bias[:10]
+
+
+# In[172]:
+
+model.summary()
+
+
+# In[195]:
+
+model.layers[8].get_weights()[:10]
+
+
 # ## Get embedding
 
 # In[161]:
@@ -335,7 +360,12 @@ mdl_movie_embedding = keras.models.Model(inputs=movie_in, outputs=m)
 mdl_movie_embedding.summary()
 
 
-# In[165]:
+# In[202]:
 
-mdl_movie_embedding.predict(np.random.choice(ratings.movieId, 2))
+mdl_movie_embedding.predict(ratings.movieId)[0]
+
+
+# In[213]:
+
+model.layers[3].get_weights()[0][0]
 
