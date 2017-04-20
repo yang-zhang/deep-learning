@@ -3,19 +3,19 @@
 
 # Demo to verify the number of paramters of layers in Keras models.
 
-# In[137]:
+# In[12]:
 
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Embedding
 from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
-from keras.layers import LSTM, Dense
+from keras.layers import SimpleRNN, LSTM
 
 
 # ### Multilayer Perceptron (MLP) for multi-class softmax classification
 
-# In[48]:
+# In[2]:
 
 model = Sequential()
 # Dense(64) is a fully-connected layer with 64 hidden units.
@@ -28,7 +28,7 @@ model.add(Dropout(0.5))
 model.add(Dense(23, activation='softmax'))
 
 
-# In[49]:
+# In[3]:
 
 print(model.summary())
 
@@ -39,7 +39,7 @@ assert(23 * (13+1) == 322)
 
 # ### MLP for binary classification
 
-# In[51]:
+# In[4]:
 
 model = Sequential()
 model.add(Dense(7, input_dim=20, activation='relu'))
@@ -49,7 +49,7 @@ model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 
-# In[52]:
+# In[5]:
 
 print(model.summary())
 
@@ -60,7 +60,7 @@ assert(1 * (13+1) == 14)
 
 # ### VGG-like convnet
 
-# In[94]:
+# In[6]:
 
 model = Sequential()
 # input: 100x100 images with 3 channels -> (100, 100, 3) tensors.
@@ -81,7 +81,7 @@ model.add(Dropout(0.5))
 model.add(Dense(29, activation='softmax'))
 
 
-# In[93]:
+# In[7]:
 
 print(model.summary())
 
@@ -94,9 +94,34 @@ assert(23 * (9196+1) == 211531)
 assert(29 * (23+1) == 696)
 
 
+# ### Simple RNN
+# https://github.com/yang-zhang/courses/blob/master/deeplearning1/nbs/lesson6.ipynb
+
+# In[81]:
+
+n_hidden, n_fac, cs, vocab_size = (256, 42, 8, 86)
+
+model=Sequential([
+        Embedding(input_dim=vocab_size, output_dim=n_fac, input_length=cs),
+        SimpleRNN(n_hidden, activation='relu', inner_init='identity'),
+        Dense(vocab_size, activation='softmax')
+    ])
+
+print(model.summary())
+
+
+# In[91]:
+
+assert 86 * 42 == 3612
+
+assert 86 * (256 + 1) == 22102
+
+assert 256 * (42 + (256 + 1)) == 76544
+
+
 # ### Sequence classification with LSTM
 
-# In[69]:
+# In[8]:
 
 max_features = 7
 model = Sequential()
@@ -106,7 +131,7 @@ model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 
-# In[70]:
+# In[9]:
 
 print(model.summary())
 # TODO
