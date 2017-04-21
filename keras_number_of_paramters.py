@@ -32,9 +32,9 @@ model.add(Dense(23, activation='softmax'))
 
 print(model.summary())
 
-assert(7 * (20+1) == 147)
-assert(13 * (7+1) == 104)
-assert(23 * (13+1) == 322)
+assert (7 * (20 + 1) == 147)
+assert (13 * (7 + 1) == 104)
+assert (23 * (13 + 1) == 322)
 
 
 # ### MLP for binary classification
@@ -53,9 +53,9 @@ model.add(Dense(1, activation='sigmoid'))
 
 print(model.summary())
 
-assert(7 * (20+1) == 147)
-assert(13 * (7+1) == 104)
-assert(1 * (13+1) == 14)
+assert (7 * (20 + 1) == 147)
+assert (13 * (7 + 1) == 104)
+assert (1 * (13 + 1) == 14)
 
 
 # ### VGG-like convnet
@@ -85,32 +85,33 @@ model.add(Dense(29, activation='softmax'))
 
 print(model.summary())
 
-assert(7 * (3 * (3*3) + 1) == 196)
-assert(13 * (7 * (3*3) + 1) == 832)
-assert(17 * (13 * (3*3) + 1) == 2006)
-assert(19 * (17 * (3*3) + 1) == 2926)
-assert(22 * 22 * 19 == 9196)
-assert(23 * (9196+1) == 211531)
-assert(29 * (23+1) == 696)
+assert (7 * (3 * (3 * 3) + 1) == 196)
+assert (13 * (7 * (3 * 3) + 1) == 832)
+assert (17 * (13 * (3 * 3) + 1) == 2006)
+assert (19 * (17 * (3 * 3) + 1) == 2926)
+assert (22 * 22 * 19 == 9196)
+assert (23 * (9196 + 1) == 211531)
+assert (29 * (23 + 1) == 696)
 
 
 # ### Simple RNN
 # https://github.com/yang-zhang/courses/blob/master/deeplearning1/nbs/lesson6.ipynb
 
-# In[81]:
+# In[95]:
 
 n_hidden, n_fac, cs, vocab_size = (256, 42, 8, 86)
 
-model=Sequential([
-        Embedding(input_dim=vocab_size, output_dim=n_fac, input_length=cs),
-        SimpleRNN(n_hidden, activation='relu', inner_init='identity'),
-        Dense(vocab_size, activation='softmax')
-    ])
+model = Sequential([
+    Embedding(
+        input_dim=vocab_size, output_dim=n_fac, input_length=cs), SimpleRNN(
+            n_hidden, activation='relu', inner_init='identity'), Dense(
+                vocab_size, activation='softmax')
+])
 
 print(model.summary())
 
 
-# In[91]:
+# In[96]:
 
 assert 86 * 42 == 3612
 
@@ -119,9 +120,14 @@ assert 86 * (256 + 1) == 22102
 assert 256 * (42 + (256 + 1)) == 76544
 
 
+# In[89]:
+
+assert 256 * (42 + (256 + 1)) == 76544
+
+
 # ### Sequence classification with LSTM
 
-# In[8]:
+# In[140]:
 
 max_features = 7
 model = Sequential()
@@ -131,14 +137,13 @@ model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 
-# In[9]:
+# In[141]:
 
 print(model.summary())
-# TODO
 
-assert(13 * 7 == 91)
-print(2108/17, 'then?')
-assert(1 * (17+1) == 18)
+assert 13 * 7 == 91
+assert (13 * 4 + 72) * 17 == 2108
+assert 1 * (17 + 1) == 18
 
 
 # ### Sequence classification with 1D convolutions
@@ -160,12 +165,12 @@ model.add(Dense(1, activation='sigmoid'))
 # In[136]:
 
 print(model.summary())
-assert(13 * (5*103 + 1) == 6708)
-assert(17 * (4*13 + 1) == 901)
-assert(63/3 == 21)
-assert(19 * (7*17 + 1) == 2280)
-assert(23 * (6*19 + 1) == 2645)
-assert(1 * (23 + 1) == 24)
+assert (13 * (5 * 103 + 1) == 6708)
+assert (17 * (4 * 13 + 1) == 901)
+assert (63 / 3 == 21)
+assert (19 * (7 * 17 + 1) == 2280)
+assert (23 * (6 * 19 + 1) == 2645)
+assert (1 * (23 + 1) == 24)
 
 
 # ### Stacked LSTM for sequence classification
@@ -178,9 +183,12 @@ num_classes = 13
 
 # expected input data shape: (batch_size, timesteps, data_dim)
 model = Sequential()
-model.add(LSTM(31, return_sequences=True,
-               input_shape=(timesteps, data_dim)))  # returns a sequence of vectors of dimension 31
-model.add(LSTM(37, return_sequences=True))  # returns a sequence of vectors of dimension 37
+model.add(LSTM(
+    31, return_sequences=True, input_shape=(
+        timesteps, data_dim)))  # returns a sequence of vectors of dimension 31
+model.add(LSTM(
+    37,
+    return_sequences=True))  # returns a sequence of vectors of dimension 37
 model.add(LSTM(41))  # return a single vector of dimension 41
 model.add(Dense(17, activation='softmax'))
 
@@ -189,8 +197,8 @@ model.add(Dense(17, activation='softmax'))
 
 print(model.summary())
 # TODO
-(5332/31)
-172/4
+(5332 / 31)
+172 / 4
 
 
 # ### Same stacked LSTM model, rendered "stateful"
@@ -204,9 +212,16 @@ batch_size = 47
 
 # expected input data shape: (batch_size, timesteps, data_dim)
 model = Sequential()
-model.add(LSTM(31, return_sequences=True, stateful=True,
-               batch_input_shape=(batch_size, timesteps, data_dim)))  # returns a sequence of vectors of dimension 31
-model.add(LSTM(37, return_sequences=True, stateful=True))  # returns a sequence of vectors of dimension 37
+model.add(
+    LSTM(
+        31,
+        return_sequences=True,
+        stateful=True,
+        batch_input_shape=(batch_size, timesteps, data_dim
+                           )))  # returns a sequence of vectors of dimension 31
+model.add(LSTM(
+    37, return_sequences=True,
+    stateful=True))  # returns a sequence of vectors of dimension 37
 model.add(LSTM(41, stateful=True))  # return a single vector of dimension 41
 model.add(Dense(17, activation='softmax'))
 
@@ -222,8 +237,12 @@ batch_size = 32
 # Note that we have to provide the full batch_input_shape since the network is stateful.
 # the sample of index i in batch k is the follow-up for the sample i in batch k-1.
 model = Sequential()
-model.add(LSTM(32, return_sequences=True, stateful=True,
-               batch_input_shape=(batch_size, timesteps, data_dim)))
+model.add(
+    LSTM(
+        32,
+        return_sequences=True,
+        stateful=True,
+        batch_input_shape=(batch_size, timesteps, data_dim)))
 model.add(LSTM(32, return_sequences=True, stateful=True))
 model.add(LSTM(32, stateful=True))
 model.add(Dense(10, activation='softmax'))
