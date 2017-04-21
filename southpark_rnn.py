@@ -8,8 +8,7 @@ from ds_utils.imports import *
 
 # In[2]:
 
-# seasons = np.arange(1, 20)
-seasons = np.arange(1, 10)
+seasons = np.arange(1, 20)
 
 data_seasons = []
 for season in seasons:
@@ -122,17 +121,23 @@ model.compile(
 model.fit(xs, y, batch_size=64, epochs=12)
 
 
-# In[20]:
+# In[72]:
 
-model.save('models/southpark_rnn.h5')
-
-
-# In[ ]:
+model_weight_path = 'models/southpark_rnn_weights.h5'
 
 
+# In[73]:
+
+model.save_weights(model_weight_path)
 
 
-# In[27]:
+
+# In[75]:
+
+model.load_weights(model_weight_path)
+
+
+# In[76]:
 
 def get_next(inp):
     idxs = [np.array(ind_char[c])[np.newaxis] for c in inp]
@@ -140,23 +145,17 @@ def get_next(inp):
     return chars[np.argmax(p)]
 
 
-# In[63]:
+# In[77]:
 
 for i in range(100):
     n = np.random.choice(len(text))
     str_piece = text[n:n + 8]
-    str_piece_context = text[n - 10:n + 8 + 5]
+    str_piece_context = text[n - 10:n + 8 + 10]
     print(str_piece_context)
-    print(10 * ' ' + str_piece + str(get_next(str_piece)))
-    print(10 * '-')
+    print(10 * '.' + str_piece + str(get_next(str_piece)))
+    print(50 * '-')
 
 
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
+# References:
+# - https://github.com/yang-zhang/courses/blob/master/deeplearning1/nbs/lesson6.ipynb
+# - https://github.com/yang-zhang/courses/blob/master/deeplearning1/nbs/char-rnn.ipynb
