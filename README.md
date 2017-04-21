@@ -13,6 +13,9 @@ Deep Learning demos and experiments.
 - [MNIST using Keras](https://github.com/yang-zhang/deep-learning/blob/master/MNIST_keras.ipynb): CNN example.
 - [Collaborative Filtering using Keras](https://github.com/yang-zhang/deep-learning/blob/master/collaborative_filtering_keras.ipynb)
 - [Number of Layer Parameters](https://github.com/yang-zhang/deep-learning/blob/master/keras_number_of_paramters.ipynb): Demo to verify the number of paramters of layers in Keras models.
+- [RNN using Keras](https://github.com/yang-zhang/deep-learning/blob/master/keras_rnn.ipynb)
+- [RNN on South Park scripts](https://github.com/yang-zhang/deep-learning/blob/master/southpark_rnn.ipynb)
+- [Theano Tutorial](https://github.com/yang-zhang/deep-learning/blob/master/theano_tutorial.ipynb)
 
 For setting up deep learning environement, see [here](https://github.com/yang-zhang/ds-env/blob/master/setup_deep_learning.md).
 
