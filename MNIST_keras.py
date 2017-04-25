@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[44]:
+# In[51]:
 
 from ds_utils.imports import *
 
@@ -14,40 +14,45 @@ from keras.utils import np_utils
 from keras.datasets import mnist
 
 
-# In[45]:
+# In[70]:
 
 # 4. Load pre-shuffled MNIST data into train and test sets
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
 
 
-# In[46]:
+# In[71]:
 
 X_train.shape 
 
 
-# In[47]:
+# In[72]:
 
 X_train[0][0].shape
 
 
-# In[49]:
+# In[73]:
 
 plt.imshow(X_train[0], cmap=plt.cm.gray_r)
 
 
-# In[50]:
+# In[80]:
+
+y_train[0]
+
+
+# In[75]:
 
 # 5. Preprocess input data
 X_train = X_train.reshape(X_train.shape[0], 1, 28, 28)
 X_test = X_test.reshape(X_test.shape[0], 1, 28, 28)
 
 
-# In[32]:
+# In[76]:
 
 X_train.shape
 
 
-# In[33]:
+# In[77]:
 
 X_train = X_train.astype('float32')
 X_test = X_test.astype('float32')
@@ -55,24 +60,29 @@ X_train /= 255
 X_test /= 255
 
 
-# In[34]:
+# In[81]:
+
+plt.imshow(X_train[0][0], cmap=plt.cm.gray_r)
+
+
+# In[82]:
 
 # 6. Preprocess class labels
 Y_train = np_utils.to_categorical(y_train, 10)
 Y_test = np_utils.to_categorical(y_test, 10)
 
 
-# In[35]:
+# In[83]:
 
 Y_train.shape
 
 
-# In[36]:
+# In[84]:
 
 Y_train[:2]
 
 
-# In[37]:
+# In[85]:
 
 # 7. Define model architecture
 model = Sequential()
@@ -82,12 +92,12 @@ model.add(
         32, (3, 3), activation='relu', input_shape=(1, 28, 28)))
 
 
-# In[38]:
+# In[86]:
 
 model.output_shape
 
 
-# In[39]:
+# In[87]:
 
 model.add(Convolution2D(32, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -98,26 +108,24 @@ model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
 
-# In[40]:
+# In[88]:
 
 model.summary()
 
 
-# In[41]:
-
+# In[89]:
 
 # 8. Compile model
 model.compile(loss='categorical_crossentropy',
-             optimizer='adam',
-             metrics=['accuracy'])
+              optimizer='adam',
+              metrics=['accuracy'])
 
 
-# In[42]:
+# In[ ]:
 
 # 9. Fit model on training data
 model.fit(X_train, Y_train, 
           batch_size=32, nb_epoch=2, verbose=1)
- 
 
 
 # In[43]:
