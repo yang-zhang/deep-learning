@@ -35,6 +35,8 @@ ind_char = dict((c, i) for i, c in enumerate(chars))
 idx = [ind_char[c] for c in text]
 
 
+# ## RNN - N chars
+
 # In[5]:
 
 cs = 8
@@ -109,7 +111,7 @@ for i in range(1,cs):
 c_out = dense_out(hidden)
 
 
-# In[29]:
+# In[18]:
 
 model = keras.models.Model([c[0] for c in c_ins], c_out)
 model.compile(
@@ -121,23 +123,23 @@ model.compile(
 model.fit(xs, y, batch_size=64, epochs=12)
 
 
-# In[72]:
+# In[20]:
 
 model_weight_path = 'models/southpark_rnn_weights.h5'
 
 
-# In[73]:
+# In[21]:
 
 model.save_weights(model_weight_path)
 
 
 
-# In[75]:
+# In[22]:
 
 model.load_weights(model_weight_path)
 
 
-# In[76]:
+# In[23]:
 
 def get_next(inp):
     idxs = [np.array(ind_char[c])[np.newaxis] for c in inp]
@@ -145,7 +147,7 @@ def get_next(inp):
     return chars[np.argmax(p)]
 
 
-# In[77]:
+# In[24]:
 
 for i in range(100):
     n = np.random.choice(len(text))
@@ -154,6 +156,23 @@ for i in range(100):
     print(str_piece_context)
     print(10 * '.' + str_piece + str(get_next(str_piece)))
     print(50 * '-')
+
+
+# ## Seq
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
 
 
 # References:
