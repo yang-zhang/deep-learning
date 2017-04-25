@@ -121,7 +121,7 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 
-# In[ ]:
+# In[90]:
 
 # 9. Fit model on training data
 model.fit(X_train, Y_train, 
