@@ -49,13 +49,13 @@ def sample_xy(x, y, sample_size):
     return x[sample], y[sample]
 
 
-# In[ ]:
+# In[17]:
 
 X_train_sample, y_train_sample = sample_xy(X_train, y_train, 100)
 X_test_sample, y_test_sample = sample_xy(X_test, y_test, 500)
 
 
-# In[ ]:
+# In[18]:
 
 model = make_compile_model()
 model.fit(X_train_sample,
@@ -64,7 +64,7 @@ model.fit(X_train_sample,
           epochs=1000)
 
 
-# In[ ]:
+# In[19]:
 
 model = make_compile_model()
 early_stopping = keras.callbacks.EarlyStopping(
