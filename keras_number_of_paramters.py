@@ -3,7 +3,7 @@
 
 # Demo to verify the number of paramters of layers in Keras models.
 
-# In[12]:
+# In[82]:
 
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
@@ -15,7 +15,7 @@ from keras.layers import SimpleRNN, LSTM
 
 # ### Multilayer Perceptron (MLP) for multi-class softmax classification
 
-# In[2]:
+# In[83]:
 
 model = Sequential()
 # Dense(64) is a fully-connected layer with 64 hidden units.
@@ -28,7 +28,7 @@ model.add(Dropout(0.5))
 model.add(Dense(23, activation='softmax'))
 
 
-# In[3]:
+# In[84]:
 
 print(model.summary())
 
@@ -39,7 +39,7 @@ assert (23 * (13 + 1) == 322)
 
 # ### MLP for binary classification
 
-# In[4]:
+# In[85]:
 
 model = Sequential()
 model.add(Dense(7, input_dim=20, activation='relu'))
@@ -49,7 +49,7 @@ model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 
-# In[5]:
+# In[86]:
 
 print(model.summary())
 
@@ -60,7 +60,7 @@ assert (1 * (13 + 1) == 14)
 
 # ### VGG-like convnet
 
-# In[6]:
+# In[87]:
 
 model = Sequential()
 # input: 100x100 images with 3 channels -> (100, 100, 3) tensors.
@@ -81,7 +81,7 @@ model.add(Dropout(0.5))
 model.add(Dense(29, activation='softmax'))
 
 
-# In[7]:
+# In[88]:
 
 print(model.summary())
 
@@ -97,7 +97,7 @@ assert (29 * (23 + 1) == 696)
 # ### Simple RNN
 # https://github.com/yang-zhang/courses/blob/master/deeplearning1/nbs/lesson6.ipynb
 
-# In[95]:
+# In[89]:
 
 n_hidden, n_fac, cs, vocab_size = (256, 42, 8, 86)
 
@@ -111,7 +111,7 @@ model = Sequential([
 print(model.summary())
 
 
-# In[96]:
+# In[90]:
 
 assert 86 * 42 == 3612
 
@@ -120,14 +120,14 @@ assert 86 * (256 + 1) == 22102
 assert 256 * (42 + (256 + 1)) == 76544
 
 
-# In[89]:
+# In[91]:
 
 assert 256 * (42 + (256 + 1)) == 76544
 
 
 # ### Sequence classification with LSTM
 
-# In[140]:
+# In[92]:
 
 max_features = 7
 model = Sequential()
@@ -137,7 +137,7 @@ model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 
-# In[141]:
+# In[93]:
 
 print(model.summary())
 
@@ -148,7 +148,7 @@ assert 1 * (17 + 1) == 18
 
 # ### Sequence classification with 1D convolutions
 
-# In[121]:
+# In[94]:
 
 seq_length = 70
 model = Sequential()
@@ -162,7 +162,7 @@ model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 
-# In[136]:
+# In[95]:
 
 print(model.summary())
 assert (13 * (5 * 103 + 1) == 6708)
@@ -175,11 +175,10 @@ assert (1 * (23 + 1) == 24)
 
 # ### Stacked LSTM for sequence classification
 
-# In[140]:
+# In[96]:
 
 data_dim = 11
 timesteps = 7
-num_classes = 13
 
 # expected input data shape: (batch_size, timesteps, data_dim)
 model = Sequential()
@@ -193,21 +192,22 @@ model.add(LSTM(41))  # return a single vector of dimension 41
 model.add(Dense(17, activation='softmax'))
 
 
-# In[150]:
+# In[97]:
 
 print(model.summary())
-# TODO
-(5332 / 31)
-172 / 4
+
+assert ((data_dim + 14) * 4 + 72) * 31 == 5332
+assert ((37 + 14) * 4 + 72) * 37 == 10212
+assert ((37 + 24) * 4 + 72) * 41 == 12956
+assert 17 * (41 + 1) == 714
 
 
 # ### Same stacked LSTM model, rendered "stateful"
 
-# In[151]:
+# In[98]:
 
 data_dim = 11
 timesteps = 7
-num_classes = 13
 batch_size = 47
 
 # expected input data shape: (batch_size, timesteps, data_dim)
@@ -226,11 +226,10 @@ model.add(LSTM(41, stateful=True))  # return a single vector of dimension 41
 model.add(Dense(17, activation='softmax'))
 
 
-# In[ ]:
+# In[99]:
 
 data_dim = 16
 timesteps = 8
-num_classes = 10
 batch_size = 32
 
 # Expected input batch shape: (batch_size, timesteps, data_dim)
@@ -248,10 +247,9 @@ model.add(LSTM(32, stateful=True))
 model.add(Dense(10, activation='softmax'))
 
 
-# In[153]:
+# In[100]:
 
 print(model.summary())
-# TODO
 
 
 # Reference: 
