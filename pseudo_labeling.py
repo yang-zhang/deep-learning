@@ -1,12 +1,12 @@
 
 # coding: utf-8
 
-# In[109]:
+# In[29]:
 
 from ds_utils.imports import *
 
 
-# In[110]:
+# In[30]:
 
 from imp import reload
 import ds_utils.misc; reload(ds_utils.misc)
@@ -14,40 +14,40 @@ import ds_utils.misc; reload(ds_utils.misc)
 
 # ### Regular model using all training data
 
-# In[111]:
+# In[31]:
 
 (X_train, y_train), (X_test, y_test) = keras.datasets.mnist.load_data()
 
 
-# In[112]:
+# In[32]:
 
 # see https://github.com/yang-zhang/code-data-science/blob/master/numpy_newaxis.ipynb
 X_train = X_train[:, np.newaxis]
 X_test = X_test[:, np.newaxis]
 
 
-# In[113]:
+# In[33]:
 
 y_train = keras.utils.np_utils.to_categorical(y_train, 10)
 y_test = keras.utils.np_utils.to_categorical(y_test, 10)
 
 
-# In[114]:
+# In[34]:
 
 X_train.shape, y_train.shape, X_test.shape, y_test.shape
 
 
-# In[115]:
+# In[35]:
 
 ds_utils.misc.imshow_gray(X_train[0][0])
 
 
-# In[116]:
+# In[36]:
 
 y_train[0]
 
 
-# In[117]:
+# In[37]:
 
 def make_compile_model():
     model = keras.models.Sequential([
@@ -76,37 +76,57 @@ def make_compile_model():
 # In[94]:
 
 model = make_compile_model()
-model.fit(X_train, y_train, validation_data=[X_test, y_test], epochs=1)
+model.fit(X_train, y_train, validation_data=[X_test, y_test], epochs=2)
 
 
 # ### Suppose we only have a smaller training set.
 
-# In[124]:
+# In[38]:
 
-train_small = np.random.choice(range(X_train.shape[0]),100)
-
-
-# In[125]:
-
+train_small = np.random.choice(range(X_train.shape[0]), 100)
 X_train_small, y_train_small = X_train[train_small], y_train[train_small]
 
 
-# In[126]:
+# In[39]:
 
-X_train_small.shape, y_train_small.shape, X_test.shape, y_test.shape
+test_small = np.random.choice(range(X_test.shape[0]), 500)
+X_test_small, y_test_small = X_test[test_small], y_test[test_small]
+
+
+# In[40]:
+
+X_train_small.shape, y_train_small.shape, X_test_small.shape, y_test_small.shape
 
 
 # Performance is worse on smaller data as expected.
 
-# In[127]:
+# In[ ]:
 
 model = make_compile_model()
-model.fit(X_train_small, y_train_small, validation_data=[X_test, y_test], epochs=50)
+early_stopping = keras.callbacks.EarlyStopping(
+    monitor='val_loss', min_delta=0, patience=50)
+model.fit(X_train_small, y_train_small, validation_data=[X_test_small, y_test_small], epochs=500)
+
+
+# In[42]:
+
+model_path = 'models/pseudo_labeling_weights.h5'
+
+
+# In[24]:
+
+model.save_weights(model_path)
 
 
 # ### Psudo labeling
 
-# In[128]:
+# In[43]:
+
+model = make_compile_model()
+model.load_weights(model_path)
+
+
+# In[44]:
 
 X_pseudo = X_test
 y_pseudo = model.predict(X_test)
