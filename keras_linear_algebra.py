@@ -125,3 +125,89 @@ x1_plus_x2
 
 np.allclose(merged, x1_plus_x2)
 
+
+# ### TimeDistributed
+
+# In[2]:
+
+keras.layers.TimeDistributed
+
+
+# In[3]:
+
+get_ipython().magic('pinfo2 keras.layers.TimeDistributed')
+
+
+# In[4]:
+
+num_samples = 5
+num_timestamps = 10 
+num_features = 3
+
+
+# In[5]:
+
+inputs = np.random.random(size=(num_samples, num_timestamps, num_features))
+
+
+# In[6]:
+
+model = keras.models.Sequential()
+
+
+# In[7]:
+
+layer = keras.layers.TimeDistributed(
+    keras.layers.Dense(5), input_shape=(num_timestamps, num_features))
+
+
+# In[8]:
+
+model.add(layer)
+
+
+# In[9]:
+
+model.output_shape
+
+
+# In[10]:
+
+weights = layer.get_weights()
+
+
+# In[11]:
+
+A, b = tuple(weights)
+
+
+# In[12]:
+
+A, b
+
+
+# In[13]:
+
+model_outputs = model.predict(inputs)
+
+
+# In[14]:
+
+model_outputs.shape
+
+
+# In[15]:
+
+model_outputs[0]
+
+
+# In[16]:
+
+np.dot(inputs[0], A) + b
+
+
+# In[17]:
+
+for i in range(num_samples):
+    assert np.allclose(model_outputs[0], np.dot(inputs[0], A) + b)
+
