@@ -21,5 +21,3 @@ For setting up deep learning environement, see [here](https://github.com/yang-zh
 
 ---
 Back to [Home Page](https://yang-zhang.github.io/)
-
-
