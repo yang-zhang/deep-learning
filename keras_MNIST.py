@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[51]:
+# In[1]:
 
 from ds_utils.imports import *
 
@@ -14,45 +14,45 @@ from keras.utils import np_utils
 from keras.datasets import mnist
 
 
-# In[70]:
+# In[2]:
 
 # 4. Load pre-shuffled MNIST data into train and test sets
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
 
 
-# In[71]:
+# In[3]:
 
 X_train.shape 
 
 
-# In[72]:
+# In[4]:
 
 X_train[0][0].shape
 
 
-# In[73]:
+# In[5]:
 
 plt.imshow(X_train[0], cmap=plt.cm.gray_r)
 
 
-# In[80]:
+# In[6]:
 
 y_train[0]
 
 
-# In[75]:
+# In[7]:
 
 # 5. Preprocess input data
 X_train = X_train.reshape(X_train.shape[0], 1, 28, 28)
 X_test = X_test.reshape(X_test.shape[0], 1, 28, 28)
 
 
-# In[76]:
+# In[8]:
 
 X_train.shape
 
 
-# In[77]:
+# In[9]:
 
 X_train = X_train.astype('float32')
 X_test = X_test.astype('float32')
@@ -60,29 +60,29 @@ X_train /= 255
 X_test /= 255
 
 
-# In[81]:
+# In[10]:
 
 plt.imshow(X_train[0][0], cmap=plt.cm.gray_r)
 
 
-# In[82]:
+# In[11]:
 
 # 6. Preprocess class labels
 Y_train = np_utils.to_categorical(y_train, 10)
 Y_test = np_utils.to_categorical(y_test, 10)
 
 
-# In[83]:
+# In[12]:
 
 Y_train.shape
 
 
-# In[84]:
+# In[13]:
 
 Y_train[:2]
 
 
-# In[85]:
+# In[14]:
 
 # 7. Define model architecture
 model = Sequential()
@@ -92,12 +92,12 @@ model.add(
         32, (3, 3), activation='relu', input_shape=(1, 28, 28)))
 
 
-# In[86]:
+# In[15]:
 
 model.output_shape
 
 
-# In[87]:
+# In[16]:
 
 model.add(Convolution2D(32, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -108,12 +108,12 @@ model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
 
-# In[88]:
+# In[17]:
 
 model.summary()
 
 
-# In[89]:
+# In[ ]:
 
 # 8. Compile model
 model.compile(loss='categorical_crossentropy',
@@ -121,14 +121,14 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 
-# In[90]:
+# In[ ]:
 
 # 9. Fit model on training data
 model.fit(X_train, Y_train, 
           batch_size=32, nb_epoch=2, verbose=1)
 
 
-# In[43]:
+# In[ ]:
 
 # 10. Evaluate model on test data
 score = model.evaluate(X_test, Y_test, verbose=0)
