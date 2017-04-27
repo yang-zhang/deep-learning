@@ -113,7 +113,7 @@ model.add(Dense(10, activation='softmax'))
 model.summary()
 
 
-# In[ ]:
+# In[18]:
 
 # 8. Compile model
 model.compile(loss='categorical_crossentropy',
@@ -121,20 +121,20 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 
-# In[ ]:
+# In[19]:
 
 # 9. Fit model on training data
 model.fit(X_train, Y_train, 
-          batch_size=32, nb_epoch=2, verbose=1)
+          batch_size=32, nb_epoch=1, verbose=1)
 
 
-# In[ ]:
+# In[20]:
 
 # 10. Evaluate model on test data
 score = model.evaluate(X_test, Y_test, verbose=0)
 
 
-# In[ ]:
+# In[21]:
 
 score
 
