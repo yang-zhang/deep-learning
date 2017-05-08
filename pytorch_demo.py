@@ -1,9 +1,14 @@
 
 # coding: utf-8
 
+# In[ ]:
+
+
+
+
 # ### Basics
 
-# In[4]:
+# In[1]:
 
 import torch
 
@@ -133,7 +138,7 @@ c
 
 # ### Autograd
 
-# In[56]:
+# In[2]:
 
 import torch
 from torch.autograd import Variable
@@ -141,102 +146,102 @@ from torch.autograd import Variable
 
 # #### Case
 
-# In[71]:
+# In[3]:
 
 x = Variable(torch.ones(2)*3, requires_grad=True)
 x, x.creator
 
 
-# In[62]:
+# In[4]:
 
 y = x[0] + x[1]
 y, y.creator
 
 
-# In[63]:
+# In[5]:
 
 y.backward()
 
 
-# In[64]:
+# In[6]:
 
 x.data, x.grad
 
 
-# In[65]:
+# In[7]:
 
 y.data, y.grad
 
 
 # #### Case
 
-# In[66]:
+# In[8]:
 
 x = Variable(torch.ones(2)*3, requires_grad=True)
 x, x.creator
 
 
-# In[67]:
+# In[9]:
 
 y = x[0]*2 + x[1]*3
 y, y.creator
 
 
-# In[68]:
+# In[10]:
 
 y.backward()
 
 
-# In[69]:
+# In[11]:
 
 x.data, x.grad
 
 
-# In[70]:
+# In[12]:
 
 y.data, y.grad
 
 
 # #### Case
 
-# In[76]:
+# In[13]:
 
 x = Variable(torch.ones(2)*3, requires_grad=True)
 x, x.creator
 
 
-# In[77]:
+# In[14]:
 
 y = x[0]**2 + x[1]**3
 y, y.creator
 
 
-# In[78]:
+# In[15]:
 
 y.backward()
 
 
-# In[79]:
+# In[16]:
 
 x.data, x.grad
 
 
-# In[80]:
+# In[17]:
 
 y.data, y.grad
 
 
-# #### Case
+# #### Case - multiple outputs
 
-# In[106]:
+# In[90]:
 
-x = Variable(torch.ones(2), requires_grad=True)
+x = Variable(torch.FloatTensor([1, 1]), requires_grad=True)
 x, x.creator
 
 
-# In[107]:
+# In[91]:
 
-y = 2 * x
+y = 5 * x **2
 y, y.creator
 
 
@@ -245,32 +250,78 @@ y, y.creator
 # RuntimeError: backward should be called only on a scalar (i.e. 1-element tensor) or with gradient w.r.t. the variable
 # ```
 
-# In[108]:
+# In[87]:
+
+gradients = torch.FloatTensor([1.0, 2.0])
+
+
+# In[88]:
+
+y.backward(gradients)
+
+
+# In[89]:
+
+x.grad
+
+
+# In[92]:
+
+gradients = torch.FloatTensor([100.0, 200.0])
+
+
+# In[93]:
+
+y.backward(gradients)
+
+
+# In[94]:
+
+x.grad
+
+
+# Not sure why `gradients` is needed.
+
+# #### Case
+
+# In[18]:
+
+x = Variable(torch.ones(2), requires_grad=True)
+x, x.creator
+
+
+# In[19]:
+
+y = 2 * x
+y, y.creator
+
+
+# In[20]:
 
 z = 3 * y**2
 
 
-# In[109]:
+# In[21]:
 
 out = z.mean()
 
 
-# In[110]:
+# In[22]:
 
 out.backward()
 
 
-# In[111]:
+# In[23]:
 
 x.data, x.grad
 
 
-# In[112]:
+# In[24]:
 
 y.data, y.grad
 
 
-# In[113]:
+# In[25]:
 
 z.data, z.grad
 
@@ -278,12 +329,88 @@ z.data, z.grad
 # $$
 # o = (z_0 + z_1) / 2 = (3y_0^2 + 3y_1^2) /2 = (3(2x_0)^2 + 3(2x_1)^2) / 2 = 6(x_0^2 + x_1^2)
 # $$
+# 
 # $$
 # \left.
 # \frac{\partial o}{\partial x_0}
 # \right|_{x_0=1} = 
 # \left.\frac{\partial 6(x_0^2 + x_1^2)}{\partial x_0}\right|_{x_0=1}=\left.12x_0\right|_{x_0=1} = 12
 # $$
+
+# #### Crazy case
+
+# In[27]:
+
+x = Variable(torch.randn(3), requires_grad=True)
+
+
+# In[37]:
+
+x
+
+
+# In[29]:
+
+y = x*2
+
+
+# In[31]:
+
+while y.data.norm() < 1000:
+    y = y*2
+
+
+# In[32]:
+
+y
+
+
+# In[34]:
+
+gradients = torch.FloatTensor([0.1, 1.0, 0.0001])
+
+
+# In[35]:
+
+y.backward(gradients)
+
+
+# In[ ]:
+
+y.backward()
+
+
+# In[36]:
+
+x.grad
+
+
+# ### Neural networks
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
 
 # ### References
 # - http://pytorch.org/tutorials/index.html
