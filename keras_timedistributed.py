@@ -1,22 +1,22 @@
 
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 from ds_utils.imports import *
 
 
-# In[3]:
+# In[2]:
 
 keras.layers.TimeDistributed
 
 
-# In[4]:
+# In[3]:
 
 get_ipython().magic('pinfo2 keras.layers.TimeDistributed')
 
 
-# In[26]:
+# In[4]:
 
 num_samples = 5
 num_timestamps = 10 
@@ -25,38 +25,52 @@ num_features = 3
 inputs = np.random.random(size=(num_samples, num_timestamps, num_features))
 
 
-# In[27]:
+# In[5]:
 
 model = keras.models.Sequential()
 
 
-# In[28]:
+# In[8]:
 
-layer = keras.layers.TimeDistributed(
-    keras.layers.Dense(5), input_shape=(num_timestamps, num_features))
-
-
-# In[29]:
-
-model.add(layer)
+layer_dense = keras.layers.Dense(5)
 
 
-# In[38]:
+# In[10]:
+
+layer_timedistributed = keras.layers.TimeDistributed(layer_dense, input_shape=(num_timestamps, num_features))
+
+
+# In[11]:
+
+model.add(layer_timedistributed)
+
+
+# In[13]:
 
 model.output_shape
 
 
-# In[39]:
+# In[17]:
+
+layer_dense.get_weights()
+
+
+# In[18]:
+
+layer_timedistributed.get_weights()
+
+
+# In[14]:
 
 weights = layer.get_weights()
 
 
-# In[40]:
+# In[15]:
 
 A, b = tuple(weights)
 
 
-# In[41]:
+# In[16]:
 
 A, b
 
