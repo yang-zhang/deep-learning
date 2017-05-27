@@ -90,3 +90,9 @@ ENV/
 
 .ipynb_checkpoints/
 bak/
+
+*.png
+Untitled.txt
+data/
+*.txt
+
