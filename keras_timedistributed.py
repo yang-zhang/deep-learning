@@ -53,45 +53,55 @@ model.output_shape
 
 # In[10]:
 
-layer_dense.get_weights()
+model.summary()
+
+
+# In[23]:
+
+assert 5 * (num_features + 1) == 20
 
 
 # In[11]:
 
-layer_timedistributed.get_weights()
+layer_dense.get_weights()
 
 
 # In[12]:
 
-weights = model.get_weights()
+layer_timedistributed.get_weights()
 
 
 # In[13]:
 
-A, b = tuple(weights)
+weights = model.get_weights()
 
 
 # In[14]:
 
-A, b
+A, b = tuple(weights)
 
 
 # In[15]:
 
-model_outputs = model.predict(inputs)
+A, b
 
 
 # In[16]:
 
+model_outputs = model.predict(inputs)
+
+
+# In[17]:
+
 model_outputs.shape
 
 
-# In[21]:
+# In[18]:
 
 model_outputs[4]
 
 
-# In[22]:
+# In[19]:
 
 np.dot(inputs[4], A) + b
 
