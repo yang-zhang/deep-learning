@@ -7,109 +7,98 @@ import keras
 import numpy as np
 
 
-# In[2]:
-
-keras.layers.TimeDistributed
-
-
-# In[3]:
-
-get_ipython().magic('pinfo2 keras.layers.TimeDistributed')
-
-
-# In[4]:
+# In[58]:
 
 num_samples = 10
 num_timestamps = 7 
 num_features = 3
 
-inputs = np.random.random(size=(num_samples, num_timestamps, num_features))
+inputs = keras.layers.Input(shape=(num_timestamps, num_features))
 
 
-# In[5]:
+# In[59]:
 
-model = keras.models.Sequential()
+inputs_data = np.random.random(size=(num_samples, num_timestamps, num_features))
 
 
-# In[6]:
+# In[60]:
 
 layer_dense = keras.layers.Dense(5)
 
 
-# In[7]:
+# In[61]:
 
-layer_timedistributed = keras.layers.TimeDistributed(layer_dense, input_shape=(num_timestamps, num_features))
-
-
-# In[8]:
-
-model.add(layer_timedistributed)
+inputs.shape
 
 
-# In[9]:
+# In[62]:
 
-model.output_shape
-
-
-# In[10]:
-
+x = inputs
+layer_timedistributed = keras.layers.TimeDistributed(layer_dense)
+outputs = layer_timedistributed(x)
+model = keras.models.Model(inputs, outputs)
 model.summary()
 
 
-# In[23]:
+# In[63]:
 
 assert 5 * (num_features + 1) == 20
 
 
-# In[11]:
+# In[64]:
 
 layer_dense.get_weights()
 
 
-# In[12]:
+# In[65]:
 
 layer_timedistributed.get_weights()
 
 
-# In[13]:
+# In[66]:
 
 weights = model.get_weights()
 
 
-# In[14]:
+# In[67]:
 
 A, b = tuple(weights)
 
 
-# In[15]:
+# In[68]:
 
 A, b
 
 
-# In[16]:
+# In[69]:
 
-model_outputs = model.predict(inputs)
-
-
-# In[17]:
-
-model_outputs.shape
+outputs_data = model.predict(inputs_data)
 
 
-# In[18]:
+# In[70]:
 
-model_outputs[4]
-
-
-# In[19]:
-
-np.dot(inputs[4], A) + b
+outputs_data.shape
 
 
-# In[20]:
+# In[71]:
+
+outputs_data[4]
+
+
+# In[72]:
+
+np.dot(inputs_data[4], A) + b
+
+
+# In[73]:
 
 for i in range(num_samples):
-    assert np.allclose(model_outputs[i], np.dot(inputs[i], A) + b)
+    assert np.allclose(outputs_data[i], np.dot(inputs_data[i], A) + b)
+
+
+# In[ ]:
+
+
 
 
 # In[ ]:
