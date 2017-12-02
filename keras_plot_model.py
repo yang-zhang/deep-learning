@@ -27,15 +27,17 @@ IPython.display.Image("test_keras_plot_model.png")
 IPython.display.SVG(keras.utils.vis_utils.model_to_dot(model).create(prog='dot', format='svg'))
 
 
-# In[9]:
+# In[12]:
 
-def plot_keras_model(model, show_shapes=True):
-    return IPython.display.SVG(keras.utils.vis_utils.model_to_dot(model, show_shapes=show_shapes).create(prog='dot', format='svg'))
+def plot_keras_model(model, show_shapes=True, show_layer_names=True):
+    from IPython.display import SVG
+    from keras.utils.vis_utils import model_to_dot
+    return SVG(model_to_dot(model, show_shapes=show_shapes, show_layer_names=show_layer_names).create(prog='dot', format='svg'))
 
 
-# In[10]:
+# In[13]:
 
-plot_keras_model(model, show_shapes=True)
+plot_keras_model(model, show_shapes=True, show_layer_names=False)
 
 
 # https://keras.io/visualization/
