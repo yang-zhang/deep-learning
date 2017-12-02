@@ -85,24 +85,24 @@ def make_xy(ts):
     return X, Y
 
 
-# In[57]:
+# In[83]:
 
 X_train, Y_train = make_xy(ts_train)
 X_test, Y_test = make_xy(ts_test)
 
 
-# In[58]:
+# In[84]:
 
 X_train = X_train.reshape(X_train.shape[0], 1, 1)
 X_test = X_test.reshape(X_test.shape[0], 1, 1)
 
 
-# In[59]:
+# In[85]:
 
 X_train.shape
 
 
-# In[60]:
+# In[86]:
 
 Y_train.shape
 

@@ -3,28 +3,36 @@
 
 # In[1]:
 
-from ds_utils.imports import *
+get_ipython().magic('matplotlib inline')
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import keras
+import sklearn
+import sklearn.preprocessing
+import sklearn.metrics
 
 
 # In[3]:
 
-dataframe = pd.read_csv('data/international-airline-passengers.csv', usecols=[1], engine='python', skipfooter=3)
+url = 'https://raw.githubusercontent.com/blue-yonder/pydse/master/pydse/data/international-airline-passengers.csv'
+dataframe = pd.read_csv(url, sep=';')
 
 
-# In[ ]:
+# In[10]:
 
 np.random.seed(7)
-dataset = dataframe.values
-dataset = dataset.astype('float32')
+dataset = dataframe.Passengers.values
+dataset = dataset.astype('float32').reshape(-1, 1)
 
 
-# In[9]:
+# In[11]:
 
 scaler = sklearn.preprocessing.MinMaxScaler(feature_range=(0, 1))
 dataset = scaler.fit_transform(dataset)
 
 
-# In[32]:
+# In[12]:
 
 train_size = int(len(dataset) * 0.67)
 test_size = len(dataset) - train_size
@@ -32,7 +40,7 @@ train, test = dataset[0:train_size,:], dataset[train_size:len(dataset),:]
 print(len(train), len(test))
 
 
-# In[33]:
+# In[13]:
 
 # convert an array of values into a dataset matrix
 def create_dataset(dataset, look_back=1):
@@ -44,7 +52,7 @@ def create_dataset(dataset, look_back=1):
     return np.array(dataX), np.array(dataY)
 
 
-# In[34]:
+# In[14]:
 
 # reshape into X=t and Y=t+1
 look_back = 1
@@ -52,29 +60,29 @@ trainX, trainY = create_dataset(train, look_back)
 testX, testY = create_dataset(test, look_back)
 
 
-# In[35]:
+# In[15]:
 
 trainX.shape
 
 
-# In[36]:
+# In[16]:
 
 trainY.shape
 
 
-# In[37]:
+# In[17]:
 
 # reshape input to be [samples, time steps, features]
 trainX = np.reshape(trainX, (trainX.shape[0], 1, trainX.shape[1]))
 testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 
 
-# In[38]:
+# In[18]:
 
 trainX.shape
 
 
-# In[39]:
+# In[19]:
 
 # create and fit the LSTM network
 model = keras.models.Sequential()
@@ -84,14 +92,14 @@ model.compile(loss='mean_squared_error', optimizer='adam')
 model.fit(trainX, trainY, epochs=100, batch_size=1, verbose=2)
 
 
-# In[25]:
+# In[ ]:
 
 # make predictions
 trainPredict = model.predict(trainX)
 testPredict = model.predict(testX)
 
 
-# In[26]:
+# In[ ]:
 
 # invert predictions
 trainPredict = scaler.inverse_transform(trainPredict)
@@ -100,7 +108,7 @@ testPredict = scaler.inverse_transform(testPredict)
 testY = scaler.inverse_transform([testY])
 
 
-# In[28]:
+# In[20]:
 
 import math
 # calculate root mean squared error
