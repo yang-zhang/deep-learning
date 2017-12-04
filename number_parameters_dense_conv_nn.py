@@ -3,6 +3,11 @@
 
 # https://medium.com/p/3eb35ab7f3c/edit
 
+# In[41]:
+
+import utilities
+
+
 # In[1]:
 
 img_rows, img_cols = 224, 224
@@ -13,7 +18,7 @@ input_shape = (img_rows, img_cols, colors)
 num_classes = 10
 
 
-# In[3]:
+# In[2]:
 
 from keras.models import Sequential
 from keras.layers import Dense
@@ -28,6 +33,11 @@ model = Sequential([
 model.summary()
 
 
+# In[42]:
+
+utilities.print_weights_shape(model)
+
+
 # In[4]:
 
 assert 32 * (input_size + 1) == 4816928
@@ -36,7 +46,7 @@ assert 128 * (64 + 1) == 8320
 assert num_classes * (128 + 1) == 1290
 
 
-# In[5]:
+# In[44]:
 
 from keras.models import Sequential
 from keras.layers import Conv2D
@@ -52,6 +62,11 @@ model = Sequential([
 model.summary()
 
 
+# In[45]:
+
+utilities.print_weights_shape(model)
+
+
 # In[6]:
 
 assert 32 * (3 * (3*3) + 1) == 896
@@ -60,7 +75,7 @@ assert 128 * (64 * (3*3) + 1) == 73856
 assert num_classes * (128 + 1) == 1290
 
 
-# In[7]:
+# In[46]:
 
 from keras.datasets import mnist
 from keras.models import Sequential
@@ -82,11 +97,21 @@ model.add(Dense(num_classes, activation='softmax'))
 model.summary()
 
 
-# In[8]:
+# In[47]:
+
+utilities.print_weights_shape(model)
+
+
+# In[48]:
 
 assert 32 * (3 * (3*3) + 1) == 896
 assert 64 * (32 * (3*3) + 1) == 18496
 assert 110 * 110 * 64 == 774400
 assert 128 * (774400 + 1) == 99123328
 assert num_classes * (128 + 1) == 1290
+
+
+# In[ ]:
+
+
 

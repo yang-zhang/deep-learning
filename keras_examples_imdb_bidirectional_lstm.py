@@ -3,12 +3,12 @@
 
 # https://github.com/fchollet/keras/blob/master/examples/imdb_bidirectional_lstm.py
 
-# In[2]:
+# In[1]:
 
 from utilities import plot_keras_model
 
 
-# In[3]:
+# In[2]:
 
 '''Trains a Bidirectional LSTM on the IMDB sentiment classification task.
 Output after 4 epochs on CPU: ~0.8146
@@ -24,6 +24,8 @@ from keras.layers import Dense, Dropout, Embedding, LSTM, Bidirectional
 from keras.datasets import imdb
 
 
+# In[3]:
+
 max_features = 20000
 # cut texts after this number of words
 # (among top max_features most common words)
@@ -34,6 +36,9 @@ print('Loading data...')
 (x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=max_features)
 print(len(x_train), 'train sequences')
 print(len(x_test), 'test sequences')
+
+
+# In[4]:
 
 print('Pad sequences (samples x time)')
 x_train = sequence.pad_sequences(x_train, maxlen=maxlen)
@@ -61,11 +66,16 @@ model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
 plot_keras_model(model)
 
 
-# In[ ]:
+# In[7]:
 
 print('Train...')
 model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=4,
 validation_data=[x_test, y_test])
+
+
+# In[ ]:
+
+
 
