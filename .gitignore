@@ -92,7 +92,7 @@ ENV/
 bak/
 
 *.png
-Untitled.txt
+Untitled*
 data/
 *.txt
 
