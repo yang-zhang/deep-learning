@@ -37,7 +37,7 @@ model.summary()
 
 utilities.print_weights_shape(model)
 
-
+output_size * (input_size + 1) == number_parameters
 # In[4]:
 
 assert 32 * (input_size + 1) == 4816928
@@ -66,7 +66,13 @@ model.summary()
 
 utilities.print_weights_shape(model)
 
+output_size * (input_size + 1) == number_parameters
 
+i.e.,
+
+output_channels * (input_channels * window_size + 1) == number_parameters
+
+here window_size=3*3
 # In[6]:
 
 assert 32 * (3 * (3*3) + 1) == 896
