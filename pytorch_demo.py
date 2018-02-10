@@ -1,11 +1,6 @@
 
 # coding: utf-8
 
-# In[ ]:
-
-
-
-
 # ### Basics
 
 # In[1]:

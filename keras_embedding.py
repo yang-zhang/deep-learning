@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[7]:
+# In[1]:
 
 import numpy as np
 
@@ -11,7 +11,7 @@ from keras.models import Sequential
 import utilities
 
 
-# In[101]:
+# In[2]:
 
 # https://keras.io/layers/embeddings/#embedding 
 model = Sequential()
@@ -27,95 +27,105 @@ output_array = model.predict(input_array)
 assert output_array.shape == (32, 10, 64)
 
 
-# In[111]:
+# In[8]:
 
-model = Sequential([Embedding(input_dim=13, output_dim=17)])
+model = Sequential([Embedding(input_dim=100, output_dim=8)])
 model.compile('rmsprop', 'mse')
 
 
-# In[112]:
+# In[9]:
 
 model.summary()
 
 
-# In[113]:
+# In[27]:
+
+assert 100 * 8 == 800
+
+
+# In[10]:
 
 utilities.plot_keras_model(model)
 
 
-# In[114]:
+# In[11]:
 
 utilities.print_weights_shape(model)
 
 
-# In[115]:
+# In[12]:
 
 weights = model.get_weights()[0]
 
 
-# In[116]:
+# In[13]:
 
 weights.shape
 
 
-# In[117]:
+# In[15]:
 
-x = np.random.choice(a=13, size=(20, 30))
+x = np.random.choice(a=100, size=(200, 10))
 
 
-# In[118]:
+# In[16]:
 
 x.shape
 
 
-# In[119]:
+# In[17]:
 
 output = model.predict(x)
 
 
-# In[120]:
+# In[18]:
 
 output.shape
 
 
-# In[121]:
+# In[19]:
 
 x[0].shape
 
 
-# In[123]:
+# In[20]:
 
 output[0].shape
 
 
-# In[124]:
+# In[21]:
 
 x[0]
 
 
-# In[128]:
+# In[22]:
 
 output[0][0]
 
 
-# In[126]:
+# In[23]:
 
 weights[x[0][0]]
 
 
-# In[129]:
+# In[24]:
 
 np.alltrue(output[0][0]==weights[x[0][0]])
 
 
-# In[130]:
+# In[25]:
 
 np.alltrue(output[2][3]==weights[x[2][3]])
 
 
-# In[133]:
+# In[26]:
 
 for i in range(x.shape[0]):
     for j in range(x.shape[1]):
         assert np.alltrue(output[i][j]==weights[x[i][j]])
+
+
+# In[ ]:
+
+
 
